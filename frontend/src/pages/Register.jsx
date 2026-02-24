@@ -8,7 +8,8 @@ const Register = () => {
   const { register: registerUser } = useAuth();
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(null); // null, { emailError: boolean }
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const password = watch("password", "");
 
   const onSubmit = async (data) => {
     try {
@@ -86,11 +87,31 @@ const Register = () => {
               type="password" 
               {...register('password', { 
                 required: 'Contraseña es requerida',
-                minLength: { value: 6, message: 'Mínimo 6 caracteres' }
+                minLength: { value: 8, message: 'Mínimo 8 caracteres' },
+                pattern: {
+                  value: /^(?=.*[A-Z])(?=.*[!@#$%^&*(),?":{}|<>]).*$/,
+                  message: 'Debe incluir una mayúscula y un símbolo'
+                }
               })}
               placeholder="••••••••"
             />
+            <small style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '4px', display: 'block' }}>
+              Mínimo 8 caracteres, una mayúscula y un símbolo.
+            </small>
             {errors.password && <span style={{ color: 'var(--error)', fontSize: '0.8rem' }}>{errors.password.message}</span>}
+          </div>
+
+          <div className="form-group">
+            <label>Confirmar Contraseña</label>
+            <input 
+              type="password" 
+              {...register('confirmPassword', { 
+                required: 'Debes confirmar tu contraseña',
+                validate: value => value === password || 'Las contraseñas no coinciden'
+              })}
+              placeholder="••••••••"
+            />
+            {errors.confirmPassword && <span style={{ color: 'var(--error)', fontSize: '0.8rem' }}>{errors.confirmPassword.message}</span>}
           </div>
 
           <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '1rem' }}>

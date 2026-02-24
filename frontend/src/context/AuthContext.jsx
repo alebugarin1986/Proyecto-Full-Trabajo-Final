@@ -8,18 +8,23 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    const checkLoggedIn = async () => {
+      try {
+        const { data } = await api.get('/users/me');
+        setUser(data);
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkLoggedIn();
   }, []);
 
   const login = async (email, password) => {
     const { data } = await api.post('/users/login', { email, password });
     setUser(data);
     localStorage.setItem('user', JSON.stringify(data));
-    localStorage.setItem('token', data.token);
     return data;
   };
 
@@ -28,10 +33,15 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+  const logout = async () => {
+    try {
+      await api.post('/users/logout');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    } finally {
+      setUser(null);
+      localStorage.removeItem('user');
+    }
   };
 
   return (

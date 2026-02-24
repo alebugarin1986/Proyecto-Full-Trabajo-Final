@@ -11,13 +11,13 @@ const Home = () => {
         <h1>
           Descubre tu próxima <span style={{ color: 'var(--primary)' }}>Aventura</span>
         </h1>
-        <p style={{ fontSize: '1.2rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto 2rem' }}>
+        <p style={{ fontSize: '1rem', color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto 2rem' }}>
           Bookstore es la plataforma definitiva para gestionar tu catálogo personal de libros. Seguro, rápido y siempre accesible.
         </p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-          <Link to="/books" className="btn-primary" style={{ padding: '12px 32px', fontSize: '1.1rem' }}>Ver Catálogo</Link>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link to="/books" className="btn-primary hero-btn" style={{ fontSize: '0.85rem' }}>Ver Catálogo</Link>
           {!user && (
-            <Link to="/register" className="btn-outline" style={{ padding: '12px 32px', fontSize: '1.1rem' }}>Empezar Ahora</Link>
+            <Link to="/register" className="btn-outline hero-btn" style={{ fontSize: '0.85rem' }}>Empezar Ahora</Link>
           )}
         </div>
       </section>
@@ -30,7 +30,7 @@ const Home = () => {
         </div>
         <div className="glass-card" style={{ textAlign: 'center' }}>
           <ShieldCheck size={48} color="var(--primary)" style={{ marginBottom: '1.5rem' }} />
-          <h3>Seguridad JWT</h3>
+          <h3>Seguridad</h3>
           <p style={{ color: 'var(--text-muted)', marginTop: '1rem' }}>Tus datos están protegidos con autenticación de última generación.</p>
         </div>
         <div className="glass-card" style={{ textAlign: 'center' }}>

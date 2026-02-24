@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="glass-card" style={{ borderRadius: 0, margin: 0, padding: '1rem 0', position: 'sticky', top: 0, zIndex: 100 }}>
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '1.5rem', color: 'var(--primary)' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, fontSize: '1.2rem', color: 'var(--primary)' }}>
           <Book size={32} />
           <span>Bookstore</span>
         </Link>
