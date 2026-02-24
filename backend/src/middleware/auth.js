@@ -1,0 +1,35 @@
+const { verifyToken } = require('../utils/jwt');
+const User = require('../models/User');
+
+const protect = async (req, res, next) => {
+  let token;
+
+  // Buscar token en cookies primero, luego en headers
+  if (req.cookies && req.cookies.token) {
+    token = req.cookies.token;
+  } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (token) {
+    try {
+      const decoded = verifyToken(token);
+      req.user = await User.findById(decoded.id).select('-password');
+      
+      if (!req.user) {
+        return res.status(401).json({ message: 'No autorizado, usuario no encontrado' });
+      }
+      
+      return next();
+    } catch (error) {
+      console.error(error);
+      return res.status(401).json({ message: 'No autorizado, token fallido' });
+    }
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: 'No autorizado, no hay token' });
+  }
+};
+
+module.exports = { protect };
