@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "librohub-api-collection",
 		"name": "Bookstore API",
+		"description": "Colección completa de la API de Bookstore para el proyecto final.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -15,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Alejandro\",\n    \"email\": \"ale@example.com\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n    \"name\": \"Alejandro\",\n    \"email\": \"ale@example.com\",\n    \"password\": \"Password123!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,14 +24,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/users/register",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/users/register",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
-								"api",
 								"users",
 								"register"
 							]
@@ -40,12 +38,27 @@
 				},
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Si el servidor devuelve un token en el body (aunque usemos cookies)",
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"ale@example.com\",\n    \"password\": \"123456\"\n}",
+							"raw": "{\n    \"email\": \"ale@example.com\",\n    \"password\": \"Password123!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -53,16 +66,135 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/users/login",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/users/login",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
-								"api",
 								"users",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/verify/:token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"verify",
+								":token"
+							],
+							"variable": [
+								{
+									"key": "token",
+									"value": "INSERT_TOKEN_HERE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ale@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/forgot-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"NewPassword123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/reset-password/:token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"reset-password",
+								":token"
+							],
+							"variable": [
+								{
+									"key": "token",
+									"value": "INSERT_TOKEN_HERE"
+								}
 							]
 						}
 					},
@@ -79,15 +211,36 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/books",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/books",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
-								"api",
 								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Book by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "INSERT_BOOK_ID_HERE"
+								}
 							]
 						}
 					},
@@ -96,17 +249,14 @@
 				{
 					"name": "Create Book",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Cien Años de Soledad\",\n    \"author\": \"Gabriel García Márquez\",\n    \"category\": \"CATEGORY_ID_HERE\",\n    \"description\": \"Una obra maestra de la literatura.\"\n}",
+							"raw": "{\n    \"title\": \"Cien Años de Soledad\",\n    \"author\": \"Gabriel García Márquez\",\n    \"category\": \"INSERT_CATEGORY_ID_HERE\",\n    \"description\": \"Una obra maestra de la literatura.\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -114,15 +264,45 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/books",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/books",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
-								"api",
 								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Book",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Cien Años de Soledad (Edición Revisada)\",\n    \"description\": \"Título actualizado.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "INSERT_BOOK_ID_HERE"
+								}
 							]
 						}
 					},
@@ -134,26 +314,231 @@
 			"name": "Categories",
 			"item": [
 				{
-					"name": "Get Categories",
+					"name": "Get All Categories",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/categories",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/categories",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
-								"api",
 								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "INSERT_CATEGORY_ID_HERE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Realismo Mágico\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Ficción Literaria\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "INSERT_CATEGORY_ID_HERE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/categories/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "INSERT_CATEGORY_ID_HERE"
+								}
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get Reviews by Book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/:bookId/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								":bookId",
+								"reviews"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "INSERT_BOOK_ID_HERE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente libro, muy recomendado.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/books/:bookId/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								":bookId",
+								"reviews"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "INSERT_BOOK_ID_HERE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/books/:bookId/reviews/:reviewId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"books",
+								":bookId",
+								"reviews",
+								":reviewId"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "INSERT_BOOK_ID_HERE"
+								},
+								{
+									"key": "reviewId",
+									"value": "INSERT_REVIEW_ID_HERE"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5001/api",
+			"type": "string"
 		}
 	]
 }
