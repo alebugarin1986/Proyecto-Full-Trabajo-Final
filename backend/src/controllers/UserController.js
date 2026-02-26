@@ -22,10 +22,11 @@ const UserController = {
       // Establecer cookie HttpOnly
       res.cookie('token', data.token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Solo HTTPS en producción
-        sameSite: 'strict',
+        secure: true, // Siempre true en producción para permitir sameSite: 'none'
+        sameSite: 'none', // Permite envío de cookies entre diferentes dominios (Vercel)
         maxAge: 30 * 24 * 60 * 60 * 1000 // 30 días
       });
+
 
       // Enviamos todos los datos excepto el token, ya que ahora va en la cookie
       const { token, ...userWithoutToken } = data;
