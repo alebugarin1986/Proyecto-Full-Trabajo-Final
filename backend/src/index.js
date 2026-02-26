@@ -25,18 +25,21 @@ app.use(cors({
   credentials: true
 }));
 
-// Limitación de peticiones (Rate Limiting)
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // Limita cada IP a 100 peticiones por ventana (windowMs)
-  message: {
-    status: 429,
-    message: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo después de 15 minutos'
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use(limiter);
+// Limitación de peticiones (Rate Limiting) - Deshabilitado en producción (Vercel) por compatibilidad de cabeceras
+if (process.env.NODE_ENV !== 'production') {
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100, // Limita cada IP a 100 peticiones por ventana (windowMs)
+    message: {
+      status: 429,
+      message: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo después de 15 minutos'
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+  app.use(limiter);
+}
+
 
 app.use(express.json());
 
